@@ -1,0 +1,287 @@
+:root {
+  --bg-dark: #06021b;
+  --bg-card: #0c042b;
+  --accent: #b251fd;
+  --accent-light: #ddb3fd;
+  --text-white: #ffffff;
+  --border-soft: rgba(255, 255, 255, 0.3);
+  --lilac-card: #2b0946;
+}
+
+/* ============ GLOBAL ============ */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-white);
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+  min-width: 320px;
+}
+
+a {
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* ============ MAIN LAYOUT ============ */
+
+.dashboard-wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-area {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============ SIDEBAR ============ */
+
+.sidebar {
+  width: 280px;
+  min-width: 280px;
+  background-color: var(--bg-dark);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 1.5rem 1.25rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-logo {
+  display: inline-flex;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--text-white);
+  margin-bottom: 2.5rem;
+  padding-left: 0.5rem;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  color: var(--text-white);
+  font-size: 1.05rem;
+  padding: 0.85rem 1rem;
+  border-radius: 30px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar-link:hover {
+  background-color: rgba(178, 81, 253, 0.12);
+  color: var(--text-white);
+  transform: translateX(2px);
+}
+
+.sidebar-link.active {
+  background-color: var(--lilac-card);
+}
+
+.sidebar-icon {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--accent), #6a2dbf);
+  border-radius: 50%;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+/* ============ TOPBAR ============ */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  position: sticky;
+  top: 0;
+  background-color: var(--bg-dark);
+  z-index: 20;
+}
+
+.topbar-toggle {
+  background: none;
+  border: none;
+  color: var(--text-white);
+  font-size: 1.8rem;
+  line-height: 1;
+  display: none;
+}
+
+.topbar-search {
+  flex: 1;
+  max-width: 420px;
+  background-color: #d2caf3;
+  border: 1px solid #ffffff;
+  border-radius: 30px;
+  padding: 0.7rem 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #06021b;
+}
+
+.topbar-search input {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: #06021b;
+  font-size: 1rem;
+}
+
+.topbar-search input::placeholder {
+  color: rgba(6, 2, 27, 0.6);
+}
+
+.topbar-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.icon-pill {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-white);
+  font-size: 1.1rem;
+  transition: 0.2s ease;
+}
+
+.icon-pill:hover {
+  background-color: var(--lilac-card);
+  border-color: var(--accent);
+}
+
+.user-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  background-color: #a389df;
+  border: 1px solid #ffffff;
+  border-radius: 30px;
+  padding: 0.4rem 1rem 0.4rem 0.4rem;
+  color: #06021b;
+}
+
+.user-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #06021b;
+  flex-shrink: 0;
+}
+
+.user-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #06021b;
+}
+
+/* ============ RESPONSIVE SIDEBAR + TOPBAR ============ */
+
+@media (max-width: 991.98px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    z-index: 30;
+    transform: translateX(-100%);
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .topbar-toggle {
+    display: inline-block;
+  }
+
+  .topbar {
+    padding: 1.1rem 1.25rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .topbar-search {
+    max-width: none;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .topbar {
+    padding: 0.85rem;
+    gap: 0.6rem;
+  }
+
+  .topbar-search {
+    padding: 0.6rem 1rem;
+  }
+
+  .topbar-search input {
+    font-size: 0.9rem;
+  }
+
+  .icon-pill {
+    width: 42px;
+    height: 42px;
+  }
+
+  .user-name {
+    display: none;
+  }
+
+  .user-pill {
+    padding: 0.25rem;
+  }
+
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+  }
+}

@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+
+{% load static%}
+
+{% block start %}
+
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+
+      <!-- ===== CONTENT ===== -->
+      <main class="content">
+
+        <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+          <div>
+            <h1 class="greeting">Good morning, Akshara</h1>
+            <p class="greeting-date">Monday, July 6</p>
+          </div>
+          <button type="button" class="btn btn-new-task">+ New Task</button>
+        </div>
+
+        <!-- ===== STAT CARDS ===== -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-lg-3">
+            <div class="stat-card">
+              <div class="stat-card-top">
+                <span class="stat-icon"><i class="bi bi-clipboard-check"></i></span>
+                <span class="today-badge">Today</span>
+              </div>
+              <div class="stat-value">4</div>
+              <div class="stat-title">Tasks today</div>
+              <div class="stat-note">3+ vs yesterday</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="stat-card">
+              <div class="stat-card-top">
+                <span class="stat-icon stat-icon-success"><i class="bi bi-check-circle-fill"></i></span>
+                <span class="today-badge">Today</span>
+              </div>
+              <div class="stat-value">1</div>
+              <div class="stat-title">Completed</div>
+              <div class="stat-note">17% completion</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="stat-card">
+              <div class="stat-card-top">
+                <span class="stat-icon stat-icon-fire"><i class="bi bi-fire"></i></span>
+                <span class="today-badge">Today</span>
+              </div>
+              <div class="stat-value">7</div>
+              <div class="stat-title">Day streak</div>
+              <div class="stat-note">Personal best!</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="stat-card">
+              <div class="stat-card-top">
+                <span class="stat-icon stat-icon-warn"><i class="bi bi-hourglass-split"></i></span>
+                <span class="today-badge">Today</span>
+              </div>
+              <div class="stat-value">3</div>
+              <div class="stat-title">Incomplete task</div>
+              <div class="stat-note">Need to complete by time</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== TODAY'S TASKS ===== -->
+        <div class="panel mb-4">
+          <div class="panel-header">
+            <h2><i class="bi bi-list-task panel-title-icon"></i> Today's Tasks</h2>
+            <span class="count-pill">1/4</span>
+          </div>
+
+          <ul class="task-list list-unstyled mb-0">
+            <li class="task-item">
+              <label class="task-check">
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label>
+              <div class="task-info">
+                <div class="task-name">Review laravel learning roadmap</div>
+                <div class="task-time"><i class="bi bi-clock"></i> 6:00 PM</div>
+              </div>
+              <span class="tag-pill">Work</span>
+            </li>
+
+            <li class="task-item task-item-done">
+              <label class="task-check">
+                <input type="checkbox" checked>
+                <span class="checkmark"></span>
+              </label>
+              <div class="task-info">
+                <div class="task-name">Yi meeting</div>
+                <div class="task-time"><i class="bi bi-clock"></i> 10:00 AM</div>
+              </div>
+              <span class="tag-pill">Meeting</span>
+            </li>
+
+            <li class="task-item">
+              <label class="task-check">
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label>
+              <div class="task-info">
+                <div class="task-name">Update website ui</div>
+                <div class="task-time"><i class="bi bi-clock"></i> 12:00 AM</div>
+              </div>
+              <span class="tag-pill">Projects</span>
+            </li>
+
+            <li class="task-item">
+              <label class="task-check">
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label>
+              <div class="task-info">
+                <div class="task-name">Design wireframe of ui-ux subject</div>
+                <div class="task-time"><i class="bi bi-clock"></i> 2:00 PM</div>
+              </div>
+              <span class="tag-pill">Design</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- ===== AI SMART PRIORITY ===== -->
+        <div class="panel mb-4">
+          <div class="panel-header">
+            <h2><i class="bi bi-stars panel-title-icon"></i> AI Smart Priority</h2>
+            <span class="live-pill">Live</span>
+          </div>
+
+          <p class="ai-insight">
+            <i class="bi bi-cpu"></i>
+            AI analyzed 3 tasks using deadlines, dependencies, and your recent patterns.
+          </p>
+
+          <ul class="priority-list list-unstyled mb-0">
+            <li class="priority-item">
+              <span class="priority-number">4</span>
+              <div class="priority-info">
+                <div class="priority-name">Design wireframe of ui-ux subject</div>
+                <div class="priority-time"><i class="bi bi-clock"></i> 2:00 PM</div>
+              </div>
+              <span class="priority-tag priority-high">High</span>
+            </li>
+            <li class="priority-item">
+              <span class="priority-number">1</span>
+              <div class="priority-info">
+                <div class="priority-name">Review laravel learning roadmap</div>
+                <div class="priority-time"><i class="bi bi-clock"></i> 6:00 PM</div>
+              </div>
+              <span class="priority-tag priority-medium">Medium</span>
+            </li>
+            <li class="priority-item">
+              <span class="priority-number">3</span>
+              <div class="priority-info">
+                <div class="priority-name">Update website ui</div>
+                <div class="priority-time"><i class="bi bi-clock"></i> 12:00 AM</div>
+              </div>
+              <span class="priority-tag priority-low">Low</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- ===== PRODUCTIVITY CHART ===== -->
+        <div class="panel mb-4">
+          <div class="panel-header">
+            <h2><i class="bi bi-graph-up-arrow panel-title-icon"></i> Productivity Chart</h2>
+            <span class="count-pill"><i class="bi bi-calendar-week"></i> This week</span>
+          </div>
+          <p class="chart-subtitle">Tasks completed vs added · this week</p>
+
+          <canvas id="productivityChart" height="140"></canvas>
+
+          <div class="chart-legend">
+            <span><i class="legend-dot legend-dot-completed"></i> Completed</span>
+            <span><i class="legend-dot legend-dot-added"></i> Added</span>
+          </div>
+        </div>
+
+        <!-- ===== UPCOMING DEADLINES ===== -->
+        <div class="panel mb-5">
+          <div class="panel-header">
+            <h2><i class="bi bi-alarm panel-title-icon"></i> Upcoming Deadlines</h2>
+          </div>
+
+          <ul class="deadline-list list-unstyled mb-0">
+            <li class="deadline-item">
+              <div class="deadline-top">
+                <span class="deadline-category">Category</span>
+                <span class="deadline-day deadline-day-red">Day/Date</span>
+              </div>
+              <div class="deadline-name">Task detail</div>
+              <div class="progress deadline-progress">
+                <div class="progress-bar bg-danger" role="progressbar" style="width: 90%"></div>
+              </div>
+            </li>
+            <li class="deadline-item">
+              <div class="deadline-top">
+                <span class="deadline-category">Category</span>
+                <span class="deadline-day deadline-day-orange">Day/Date</span>
+              </div>
+              <div class="deadline-name">Task detail</div>
+              <div class="progress deadline-progress">
+                <div class="progress-bar bg-warning" role="progressbar" style="width: 75%"></div>
+              </div>
+            </li>
+            <li class="deadline-item">
+              <div class="deadline-top">
+                <span class="deadline-category">Category</span>
+                <span class="deadline-day deadline-day-yellow">Day/Date</span>
+              </div>
+              <div class="deadline-name">Task detail</div>
+              <div class="progress deadline-progress">
+                <div class="progress-bar bg-info" role="progressbar" style="width: 55%"></div>
+              </div>
+            </li>
+            <li class="deadline-item">
+              <div class="deadline-top">
+                <span class="deadline-category">Category</span>
+                <span class="deadline-day deadline-day-green">Day/Date</span>
+              </div>
+              <div class="deadline-name">Task detail</div>
+              <div class="progress deadline-progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 30%"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+{% endblock%}
+
+
+
+

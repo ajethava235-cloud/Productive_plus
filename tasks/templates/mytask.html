@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block start %}
+
+<link rel="stylesheet" href="{% static 'css/mytask.css' %}">
+      <!-- ===== CONTENT ===== -->
+      <main class="content">
+
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+          <h1 class="page-title mb-0">My Tasks</h1>
+          <div class="d-flex gap-3">
+            <div class="dropdown">
+              <button class="btn btn-filter dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-sliders"></i> Filter
+              </button>
+              <ul class="dropdown-menu filter-menu dropdown-menu-end">
+                <li><h6 class="dropdown-header">Priority</h6></li>
+                <li><a class="dropdown-item filter-item" href="#" data-filter-type="priority" data-filter-value="all">All</a></li>
+                <li><a class="dropdown-item filter-item" href="#" data-filter-type="priority" data-filter-value="high">High</a></li>
+                <li><a class="dropdown-item filter-item" href="#" data-filter-type="priority" data-filter-value="medium">Medium</a></li>
+                <li><a class="dropdown-item filter-item" href="#" data-filter-type="priority" data-filter-value="low">Low</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><h6 class="dropdown-header">Status</h6></li>
+                <li><a class="dropdown-item filter-item" href="#" data-filter-type="status" data-filter-value="all">All</a></li>
+                <li><a class="dropdown-item filter-item" href="#" data-filter-type="status" data-filter-value="complete">Complete</a></li>
+                <li><a class="dropdown-item filter-item" href="#" data-filter-type="status" data-filter-value="incomplete">Incomplete</a></li>
+              </ul>
+            </div>
+            <a href="add-task.html" class="btn btn-new-task-pill">
+              <i class="bi bi-plus-circle"></i> New task
+            </a>
+          </div>
+        </div>
+
+        <div class="panel task-table-panel mb-5">
+
+          <!-- Table header -->
+          <div class="task-table-header">
+            <span class="col-task">Tasks</span>
+            <span class="col-category">Category</span>
+            <span class="col-time">Time</span>
+            <span class="col-priority">Priority</span>
+            <span class="col-status">Status</span>
+          </div>
+
+          <!-- Task rows -->
+          <div class="task-table-body" id="taskTableBody">
+
+            <div class="task-row" data-priority="medium" data-status="incomplete">
+              <span class="col-task">
+                <label class="task-check">
+                  <input type="checkbox">
+                  <span class="checkmark"></span>
+                </label>
+                <span class="row-task-name">Review laravel learning roadmap</span>
+              </span>
+              <span class="col-category"><span class="cat-chip">Work</span></span>
+              <span class="col-time"><i class="bi bi-clock"></i> 6:00 PM</span>
+              <span class="col-priority"><span class="priority-chip priority-medium">Medium</span></span>
+              <span class="col-status"><span class="status-chip status-incomplete">Incomplete</span></span>
+            </div>
+
+            <div class="task-row" data-priority="medium" data-status="complete">
+              <span class="col-task">
+                <label class="task-check">
+                  <input type="checkbox" checked>
+                  <span class="checkmark"></span>
+                </label>
+                <span class="row-task-name">Yi Meeting</span>
+              </span>
+              <span class="col-category"><span class="cat-chip">Meeting</span></span>
+              <span class="col-time"><i class="bi bi-clock"></i> 10:00 AM</span>
+              <span class="col-priority"><span class="priority-chip priority-medium">Medium</span></span>
+              <span class="col-status"><span class="status-chip status-complete">Complete</span></span>
+            </div>
+
+            <div class="task-row" data-priority="low" data-status="incomplete">
+              <span class="col-task">
+                <label class="task-check">
+                  <input type="checkbox">
+                  <span class="checkmark"></span>
+                </label>
+                <span class="row-task-name">Update website UI</span>
+              </span>
+              <span class="col-category"><span class="cat-chip">Projects</span></span>
+              <span class="col-time"><i class="bi bi-clock"></i> 12:00 AM</span>
+              <span class="col-priority"><span class="priority-chip priority-low">Low</span></span>
+              <span class="col-status"><span class="status-chip status-incomplete">Incomplete</span></span>
+            </div>
+
+            <div class="task-row" data-priority="high" data-status="incomplete">
+              <span class="col-task">
+                <label class="task-check">
+                  <input type="checkbox">
+                  <span class="checkmark"></span>
+                </label>
+                <span class="row-task-name">Design wireframe of ui-ux subject</span>
+              </span>
+              <span class="col-category"><span class="cat-chip">Design</span></span>
+              <span class="col-time"><i class="bi bi-clock"></i> 2:00 PM</span>
+              <span class="col-priority"><span class="priority-chip priority-high">High</span></span>
+              <span class="col-status"><span class="status-chip status-incomplete">Incomplete</span></span>
+            </div>
+
+          </div>
+
+          <p class="no-results-msg d-none" id="noResultsMsg">No tasks match your search or filter.</p>
+        </div>
+
+      </main>
+    </div>
+  </div>
+{% endblock %}
