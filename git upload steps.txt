@@ -1,0 +1,46 @@
+In productive plus folder
+- create .gitignore 
+content:-
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+db.sqlite3
+.env
+media/
+staticfiles/
+*.log
+.DS_Store
+.idea/
+.vscode/
+
+Step 2:- open project in terminal
+and run git init
+
+Step 3:- Generating requirements.txt
+pip freeze > requirements.txt'
+
+Step 4:- 
+git add .
+
+Step5:-
+git commit -m "Initial commit
+
+Step 6:- 
+In GitHub website, create empty repo and copy url from address bar
+https://github.com/ajethava235-cloud/Productive_plus
+
+Step 7:-
+In cmd again 
+git remote add origin <your-repo-url>
+
+Step 8:-
+git branch -M main
+
+Step 9:- 
+git push -u origin main
+
+Step 10:- refresh website 
+
+

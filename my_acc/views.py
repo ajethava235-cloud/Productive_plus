@@ -1,26 +1,72 @@
 from django.shortcuts import render, redirect
-from .models import myacc
+from django.contrib import messages
 
+from django.contrib.auth.models import User
+from django.contrib.auth import login, logout, authenticate
+from django.contrib import messages
+from httpx import request
 # Create your views here.
 def register(request):
+
     if request.method=='POST':
         data = request.POST
-        name = data.get('name')
-        number = data.get('number')
+        firstname = data.get('f_name')
+        lastname = data.get('l_name')
+        username = data.get('u_name')
         email = data.get('email')
         password = data.get('password')
         c_password = data.get('c_password')
-        terms = data.get('terms')
+        terms = request.POST.get('terms')
 
-        print("FORM DATA:", name, number, email, password, c_password)
-        
         if password == c_password:
-            myacc.objects.create(
-                name=name,
-                number=number,
-                email=email,
-                password=password,
-                c_password=c_password
+            user = User.objects.filter(username=username)
+
+            if user.exists():
+                messages.error(request, 'Username already exists')
+                return redirect('register')      
+
+            if terms != 'accepted':
+                messages.error(request, 'Please accept the Terms of Service.')
+                return redirect('register')
+
+            user = User.objects.create(
+                first_name = firstname,
+                last_name = lastname,
+                username = username,
+                email = email
             )
-            #return redirect('dashboard')
+
+            user.set_password(password)
+            user.save()
+
+            login(request, user)
+            print("USER:", request.user)
+            print("AUTHENTICATED:", request.user.is_authenticated)
+            return redirect('dashboard')
+
     return render(request, 'register.html')
+
+def signin(request):
+    if request.method == 'POST':
+
+        data = request.POST
+
+        username = data.get('u_name')
+        email = data.get('email')
+        password = data.get('password')
+
+        if not User.objects.filter(username=username).exists():
+            messages.error(request, 'Username does not exist')
+            return redirect('login')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is None:
+            messages.error(request,'Invalid password')
+            return redirect('login')
+        else:
+            login(request,user)
+            print("USER:", request.user)
+            print("AUTHENTICATED:", request.user.is_authenticated)
+            return redirect('dashboard')
+    return render(request, 'login.html')

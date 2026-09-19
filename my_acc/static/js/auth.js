@@ -1,94 +1,363 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-  // ---- Password visibility toggle (works for any .auth-toggle-visibility) ----
-  document.querySelectorAll(".auth-toggle-visibility").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      const input = document.getElementById(btn.dataset.target);
-      if (!input) return;
+    // =========================
+    // Password show / hide
+    // =========================
 
-      const isHidden = input.type === "password";
-      input.type = isHidden ? "text" : "password";
+    document.querySelectorAll(".auth-toggle-visibility").forEach(function (btn) {
 
-      const icon = btn.querySelector("i");
-      icon.classList.toggle("bi-eye-fill", !isHidden);
-      icon.classList.toggle("bi-eye-slash-fill", isHidden);
-    });
-  });
+        btn.addEventListener("click", function () {
 
-  // ---- Form submit handling ----
-  const form = document.getElementById("authForm");
-  if (!form) return;
+            const input = document.getElementById(btn.dataset.target);
+            const icon = btn.querySelector("i");
 
-  const isSignUp = !!document.getElementById("fullName");
+            if (!input) return;
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
+            if (input.type === "password") {
 
-    let valid = true;
+                input.type = "text";
 
-    // Clear previous error states
-    form.querySelectorAll(".auth-input-wrap").forEach(function (wrap) {
-      wrap.classList.remove("auth-input-error");
-    });
+                icon.classList.remove("bi-eye-fill");
+                icon.classList.add("bi-eye-slash-fill");
 
-    // Validate required text/email/password fields
-    form.querySelectorAll(".auth-input[required]").forEach(function (input) {
-      const wrap = input.closest(".auth-input-wrap");
-      const value = input.value.trim();
-      let fieldValid = value.length > 0;
+            } else {
 
-      if (input.type === "email" && fieldValid) {
-        fieldValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-      }
-      if (input.type === "password" && fieldValid && input.minLength > 0) {
-        fieldValid = value.length >= input.minLength;
-      }
+                input.type = "password";
 
-      if (!fieldValid) {
-        valid = false;
-        if (wrap) wrap.classList.add("auth-input-error");
-      }
+                icon.classList.remove("bi-eye-slash-fill");
+                icon.classList.add("bi-eye-fill");
+            }
+        });
     });
 
-    // Sign up only: terms checkbox must be checked
-    const agreeTerms = document.getElementById("agreeTerms");
-    if (agreeTerms && !agreeTerms.checked) {
-      valid = false;
+
+    // =========================
+    // Form
+    // =========================
+
+    const form = document.getElementById("authForm");
+
+    if (!form) return;
+
+
+    // =========================
+    // Fields
+    // =========================
+
+    const firstName = document.getElementById("firstName");
+    const lastName = document.getElementById("lastName");
+    const username = document.getElementById("username");
+    const email = document.getElementById("authEmail");
+    const password = document.getElementById("authPassword");
+    const confirmPassword = document.getElementById("confirmPassword");
+    const terms = document.getElementById("agreeTerms");
+
+
+    // =========================
+    // Error
+    // =========================
+
+    function showError(input, message) {
+
+        const field = input.closest(".auth-field");
+
+        let error = field.querySelector(".auth-error");
+
+        if (!error) {
+
+            error = document.createElement("small");
+
+            error.className = "auth-error";
+
+            field.appendChild(error);
+        }
+
+        error.textContent = message;
+
+        input.classList.add("auth-input-error");
     }
 
-    if (!valid) {
-      showToast("Please fill in all fields correctly.");
-      return;
+
+    function clearError(input) {
+
+        const field = input.closest(".auth-field");
+
+        const error = field.querySelector(".auth-error");
+
+        if (error) {
+            error.remove();
+        }
+
+        input.classList.remove("auth-input-error");
     }
 
-    const submitBtn = form.querySelector(".auth-submit-btn");
-    const originalText = submitBtn.textContent;
-    submitBtn.disabled = true;
-    submitBtn.textContent = isSignUp ? "Creating account..." : "Signing in...";
-  });
-  //   // Simulate an auth request — replace with a real API call when ready
-  //   setTimeout(function () {
-  //     showToast(isSignUp ? "Account created! Redirecting..." : "Welcome back! Redirecting...");
-  //     setTimeout(function () {
-  //       window.location.href = "dashboard.html";
-  //     }, 700);
-  //   }, 900);
-  // });
 
-//   function showToast(message) {
-//     let toast = document.querySelector(".auth-toast");
-//     if (!toast) {
-//       toast = document.createElement("div");
-//       toast.className = "auth-toast";
-//       document.body.appendChild(toast);
-//     }
-//     toast.textContent = message;
-//     requestAnimationFrame(function () {
-//       toast.classList.add("show");
-//     });
-//     setTimeout(function () {
-//       toast.classList.remove("show");
-//     }, 2500);
-//   }
-// });
-})
+    // =========================
+    // First Name
+    // =========================
+
+    function validateFirstName() {
+
+        const value = firstName.value.trim();
+
+        if (value === "") {
+
+            showError(firstName, "First name is required.");
+
+            return false;
+        }
+
+        if (!/^[A-Za-z]+$/.test(value)) {
+
+            showError(firstName, "Only letters are allowed.");
+
+            return false;
+        }
+
+        if (value.length < 2 || value.length > 30) {
+
+            showError(firstName, "Name must be 2-30 characters.");
+
+            return false;
+        }
+
+        clearError(firstName);
+
+        return true;
+    }
+
+
+    // =========================
+    // Last Name
+    // =========================
+
+    function validateLastName() {
+
+        const value = lastName.value.trim();
+
+        if (value === "") {
+
+            showError(lastName, "Last name is required.");
+
+            return false;
+        }
+
+        if (!/^[A-Za-z]+$/.test(value)) {
+
+            showError(lastName, "Only letters are allowed.");
+
+            return false;
+        }
+
+        if (value.length < 2 || value.length > 30) {
+
+            showError(lastName, "Name must be 2-30 characters.");
+
+            return false;
+        }
+
+        clearError(lastName);
+
+        return true;
+    }
+
+
+    // =========================
+    // Username
+    // =========================
+
+    function validateUsername() {
+
+        const value = username.value.trim();
+
+        if (value === "") {
+
+            showError(username, "Username is required.");
+
+            return false;
+        }
+
+        if (!/^[A-Za-z0-9_]+$/.test(value)) {
+
+            showError(
+                username,
+                "Only letters, numbers and _ are allowed."
+            );
+
+            return false;
+        }
+
+        if (value.length < 3 || value.length > 30) {
+
+            showError(
+                username,
+                "Username must be 3-30 characters."
+            );
+
+            return false;
+        }
+
+        clearError(username);
+
+        return true;
+    }
+
+
+    // =========================
+    // Email
+    // =========================
+
+    function validateEmail() {
+
+        const value = email.value.trim();
+
+        if (value === "") {
+
+            showError(email, "Email is required.");
+
+            return false;
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+
+            showError(
+                email,
+                "Enter a valid email address."
+            );
+
+            return false;
+        }
+
+        clearError(email);
+
+        return true;
+    }
+
+
+    // =========================
+    // Password
+    // =========================
+
+    function validatePassword() {
+
+        const value = password.value;
+
+        if (value === "") {
+
+            showError(password, "Password is required.");
+
+            return false;
+        }
+
+        if (value.length < 8) {
+
+            showError(
+                password,
+                "Password must be at least 8 characters."
+            );
+
+            return false;
+        }
+
+        if (!/^[A-Za-z0-9!@#$%]+$/.test(value)) {
+
+            showError(
+                password,
+                "Only A-Z, a-z, 0-9 and ! @ # $ % are allowed."
+            );
+
+            return false;
+        }
+
+        clearError(password);
+
+        return true;
+    }
+
+
+    // =========================
+    // Confirm Password
+    // =========================
+
+    function validateConfirmPassword() {
+
+        if (confirmPassword.value === "") {
+
+            showError(
+                confirmPassword,
+                "Please confirm your password."
+            );
+
+            return false;
+        }
+
+        if (confirmPassword.value !== password.value) {
+
+            showError(
+                confirmPassword,
+                "Passwords do not match."
+            );
+
+            return false;
+        }
+
+        clearError(confirmPassword);
+
+        return true;
+    }
+
+
+    // =========================
+    // Live validation
+    // =========================
+
+    firstName.addEventListener("input", validateFirstName);
+
+    lastName.addEventListener("input", validateLastName);
+
+    username.addEventListener("input", validateUsername);
+
+    email.addEventListener("input", validateEmail);
+
+    password.addEventListener("input", validatePassword);
+
+    confirmPassword.addEventListener(
+        "input",
+        validateConfirmPassword
+    );
+
+
+    // =========================
+    // Submit
+    // =========================
+
+    form.addEventListener("submit", function (e) {
+
+        const valid =
+            validateFirstName() &&
+            validateLastName() &&
+            validateUsername() &&
+            validateEmail() &&
+            validatePassword() &&
+            validateConfirmPassword() &&
+            terms.checked;
+
+        if (!valid) {
+
+            e.preventDefault();
+
+            // No alert box.
+            // Errors are displayed directly below the fields.
+
+            return;
+        }
+
+        /*
+            DO NOT use e.preventDefault() here.
+
+            Django will receive the POST request
+            and process the registration.
+        */
+    });
+
+});

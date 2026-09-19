@@ -206,8 +206,8 @@ textarea.custom-input {
 
 /* ---- Action buttons ---- */
 .btn-cancel-task {
-  background-color: var(--light-panel);
-  color: #06021b;
+  background-color: rgb(76, 76, 183);
+  color: #f8f7fd;
   font-weight: 700;
   font-size: 1.05rem;
   border-radius: 16px;
@@ -217,6 +217,7 @@ textarea.custom-input {
 
 .btn-cancel-task:hover {
   background-color: #ffffff;
+  color: black;
 }
 
 .btn-save-task {
@@ -230,7 +231,8 @@ textarea.custom-input {
 }
 
 .btn-save-task:hover {
-  background-color: #c17dff;
+  background-color: #f8f6fa;
+  color: black;
 }
 
 /* ---- Toast confirmation ---- */

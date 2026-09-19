@@ -41,7 +41,6 @@ INSTALLED_APPS = [
 
 EXTERNAL_APPS = [
     'landing',
-    'accounts',
     'ai_bot',
     'my_acc',
     'calander',

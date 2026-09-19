@@ -19,14 +19,16 @@ from django.urls import path
 
 from landing.views import landing
 from dashboard.views import dashboard
-from my_acc.views import register
+from my_acc.views import *
 from tasks.views import *
 
 
 urlpatterns = [
     path('', landing),
-    path('dashboard/', dashboard, name='dashboard'),
+    path('landing/', landing, name='landing'),
+    path('dashboard/',dashboard, name='dashboard'),
     path('register/', register, name='register'),
+    path('login/', signin, name='login'),
     path('mytask/', mytask, name='mytask'),
     path('addtask/', addtask, name='addtask'),
     path('admin/', admin.site.urls),

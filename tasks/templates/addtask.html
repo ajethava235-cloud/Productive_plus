@@ -1,9 +1,10 @@
 {% extends "base.html "%}
+
 {% load static %}
 
 {% block start%}
 <link rel="stylesheet" href="{% static 'css/addtask.css' %}">
-<!-- ===== CONTENT ===== -->
+
       <main class="content content-narrow">
 
         <div class="panel task-form-panel">
@@ -14,12 +15,20 @@
           </div>
           <p class="form-subtitle">Keep track and achieve more by adding your tasks.</p>
 
-          <form id="addTaskForm" novalidate>
+          <form id="addTaskForm" method="POST" novalidate>
+          {% csrf_token %}
+          {% if messages %}
+            <div class="alert alert-info" role="alert">
+              {% for message in messages %}
+                <p>{{ message }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
 
             <!-- Task Title -->
             <div class="form-block">
               <label for="taskTitle" class="form-block-label">Task Title</label>
-              <input type="text" class="form-control custom-input" id="taskTitle" placeholder="eg. complete python project" required>
+              <input type="text" class="form-control custom-input" name="t_title" id="taskTitle" placeholder="eg. complete python project">
             </div>
 
             <!-- Description -->
@@ -27,28 +36,57 @@
               <label for="taskDescription" class="form-block-label">
                 Description <span class="optional-tag">(optional)</span>
               </label>
-              <textarea class="form-control custom-input" id="taskDescription" rows="4" placeholder="Add more details about your task......"></textarea>
+              <textarea class="form-control custom-input" id="taskDescription" rows="4" placeholder="Add more details about your task......" name="t_description"></textarea>
             </div>
 
             <!-- Category + Priority -->
             <div class="row g-3">
-              <div class="col-12 col-md-6">
-                <div class="form-block h-100">
-                  <label for="taskCategory" class="form-block-label">Category</label>
-                  <select class="form-select custom-input" id="taskCategory">
-                    <option value="" selected disabled>Select Category</option>
-                    <option value="work">Work</option>
-                    <option value="study">Study</option>
-                    <option value="design">Design</option>
-                    <option value="projects">Projects</option>
-                    <option value="personal">Personal</option>
-                  </select>
-                </div>
-              </div>
+             <div class="col-12 col-md-6">
+    <div class="form-block h-100">
+
+        <label for="taskCategory" class="form-block-label">
+            Category
+        </label>
+
+        <select class="form-select custom-input"
+                id="taskCategory"
+                name="t_category">
+
+            <option value="" selected disabled>
+                Select Category
+            </option>
+
+            <option value="Customized">
+                Customized
+            </option>
+
+            <option value="work">Work</option>
+            <option value="study">Study</option>
+            <option value="design">Design</option>
+            <option value="projects">Projects</option>
+            <option value="personal">Personal</option>
+
+        </select>
+
+
+        <!-- Custom Category -->
+        <div id="customCategoryBox" class="mt-3 d-none">
+
+            <input type="text"
+                   class="form-control custom-input"
+                   name="t_custom_category"
+                   id="customCategory"
+                   placeholder="Enter your category">
+
+        </div>
+
+    </div>
+</div>
+
               <div class="col-12 col-md-6">
                 <div class="form-block h-100">
                   <label for="taskPriority" class="form-block-label">Priority</label>
-                  <select class="form-select custom-input" id="taskPriority">
+                  <select class="form-select custom-input" id="taskPriority" name="t_priority">
                     <option value="" selected disabled>Select Priority</option>
                     <option value="high">High</option>
                     <option value="medium">Medium</option>
@@ -63,7 +101,7 @@
               <label for="tagInput" class="form-block-label">
                 Tags <span class="optional-tag">(optional)</span>
               </label>
-              <input type="text" class="form-control custom-input" id="tagInput" placeholder="Add tags and press enter......">
+              <input type="text" class="form-control custom-input" name="t_tags" id="tagInput" placeholder="Add tags">
               <div class="tag-chip-wrap" id="tagChipWrap">
                 <span class="tag-chip tag-chip-yellow">Study <button type="button" class="chip-remove" aria-label="Remove tag">×</button></span>
                 <span class="tag-chip tag-chip-pink">Python <button type="button" class="chip-remove" aria-label="Remove tag">×</button></span>
@@ -76,16 +114,54 @@
               <div class="d-flex justify-content-between align-items-center">
                 <label class="form-block-label mb-0" for="remindToggle">Remind Me</label>
                 <label class="switch">
-                  <input type="checkbox" id="remindToggle" checked>
+                  <input type="checkbox" id="remindToggle" checked name="t_remind">
                   <span class="switch-slider"></span>
                 </label>
               </div>
-              <select class="form-select custom-input mt-3" id="reminderTime">
-                <option value="10">10 Min Before</option>
-                <option value="30" selected>30 Min Before</option>
-                <option value="60">1 Hour Before</option>
-                <option value="1440">1 Day Before</option>
-              </select>
+              <select class="form-select custom-input mt-3"
+        id="reminderTime"
+        name="t_remind_time">
+
+    <option value="" disabled selected>
+        Select Reminder Time
+    </option>
+
+    <option value="Customized">
+        Customized
+    </option>
+
+    <option value="10">
+        10 Min Before
+    </option>
+
+    <option value="30">
+        30 Min Before
+    </option>
+
+    <option value="60">
+        1 Hour Before
+    </option>
+
+    <option value="1440">
+        1 Day Before
+    </option>
+
+</select>
+
+
+<!-- Custom Reminder Date & Time -->
+<div id="customReminderBox" class="mt-3 d-none">
+
+    <label for="customReminderTime" class="form-block-label">
+        Select Reminder Date & Time
+    </label>
+
+    <input type="datetime-local"
+           class="form-control custom-input"
+           name="t_custom_remind_time"
+           id="customReminderTime">
+
+</div>
             </div>
 
             <!-- Task Color -->
@@ -100,6 +176,7 @@
                 <button type="button" class="color-swatch" style="background-color:#f472b6" data-color="#f472b6" aria-label="Pink"></button>
                 <button type="button" class="color-swatch" style="background-color:#f87171" data-color="#f87171" aria-label="Red"></button>
               </div>
+              <input type="hidden" name="t_color" id="taskColor" value="#c084fc">
             </div>
 
             <!-- Pin / Favorite -->
@@ -107,7 +184,7 @@
               <div class="d-flex justify-content-between align-items-center">
                 <label class="form-block-label mb-0" for="pinToggle">Pin / Favorite</label>
                 <label class="switch">
-                  <input type="checkbox" id="pinToggle">
+                  <input type="checkbox" id="pinToggle" name="t_pin_fav">
                   <span class="switch-slider"></span>
                 </label>
               </div>
@@ -116,10 +193,10 @@
             <!-- Actions -->
             <div class="row g-3 mt-1">
               <div class="col-12 col-sm-6">
-                <button type="button" class="btn btn-cancel-task w-100" id="cancelTaskBtn">Cancel Task</button>
+                <button type="button" name="cancel" class="btn btn-cancel-task w-100" id="cancelTaskBtn">Cancel Task</button>
               </div>
               <div class="col-12 col-sm-6">
-                <button type="submit" class="btn btn-save-task w-100">Save Task</button>
+                <button type="submit" name="add" class="btn btn-save-task w-100">Save Task</button>
               </div>
             </div>
 
@@ -129,5 +206,6 @@
       </main>
     </div>
   </div>
+<script src="{% static 'js/addtask.js' %}"></script>
 
 {% endblock %}
